@@ -82,10 +82,6 @@ def get_commands(process_status):
         if watermark_copysub:
             command+= ["-c:s", "copy"]
         if get_data()[process_status.user_id]['watermark']['encode']:
-                if watermark_encoder=='libx265':
-                        command+= ['-vcodec','libx265','-vtag', 'hvc1']
-                else:
-                        command+= ['-vcodec','libx264']
         else:
             command+= ['-codec:a','copy']
         watermark_use_queue_size = get_data()[process_status.user_id]['watermark']['use_queue_size']
