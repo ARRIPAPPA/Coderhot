@@ -53,7 +53,7 @@ def get_commands(process_status):
                 command+= ['-max_muxing_queue_size', f'{str(compress_queue_size)}']
             if compress_sync:
                 command+= ['-vsync', '1', '-async', '-1']
-            command+= ['-preset', compress_preset, '-crf', '-y', f"{output_file}"]
+            command+= ['-preset', compress_preset, '-y', f"{output_file}"]
             return command, log_file, input_file, output_file, file_duration
     
     elif process_status.process_type==Names.watermark:
