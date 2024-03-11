@@ -53,7 +53,7 @@ def get_commands(process_status):
                 command+= ['-max_muxing_queue_size', f'{str(compress_queue_size)}']
             if compress_sync:
                 command+= ['-vsync', '1', '-async', '-1']
-            command+= ['-preset', compress_preset, '-y', f"{output_file}"]
+            command+= ['-preset', compress_preset, '-crf', f'{str(compress_crf)}', '-y', f"{output_file}"]
             return command, log_file, input_file, output_file, file_duration
     
     elif process_status.process_type==Names.watermark:
@@ -82,6 +82,10 @@ def get_commands(process_status):
         if watermark_copysub:
             command+= ["-c:s", "copy"]
         if get_data()[process_status.user_id]['watermark']['encode']:
+                if watermark_encoder=='libx265':
+                        command+= ['']
+                else:
+                        command+= ['']
         else:
             command+= ['-codec:a','copy']
         watermark_use_queue_size = get_data()[process_status.user_id]['watermark']['use_queue_size']
@@ -294,5 +298,5 @@ def get_commands(process_status):
         output_file = f"{process_status.dir}/index/{get_output_name(process_status)}"
         file_duration = get_video_duration(input_file)
         command = ['ffmpeg','-hide_banner', '-progress', f"{log_file}", '-i', f'{str(input_file)}', '-map', '0:v?'] + process_status.custom_index
-        command += ["-c", "copy", '-y', f"{output_file}"]
+        command += ["-c", "copy","-disposition:a:0", "default", '-y', f"{output_file}"]
         return command, log_file, input_file, output_file, file_duration
