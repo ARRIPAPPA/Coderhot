@@ -80,20 +80,20 @@ def get_commands(process_status):
                                         "-map", "0:s?"]
         command+= ["-filter_complex", f"[1][0]scale2ref=w='iw*{watermark_size}/100':h='ow/mdar'[wm][vid];[vid][wm]overlay={watermark_position}"]
         if watermark_copysub:
-            command+= ["-c:s", "copy"]
+            command+= []
         if get_data()[process_status.user_id]['watermark']['encode']:
                 if watermark_encoder=='libx265':
                         command+= []
                 else:
                         command+= []
         else:
-            command+= ['-codec:a','copy']
+            command+= []
         watermark_use_queue_size = get_data()[process_status.user_id]['watermark']['use_queue_size']
         if watermark_use_queue_size:
             watermark_queue_size = get_data()[process_status.user_id]['watermark']['queue_size']
             command+= ['-max_muxing_queue_size', f'{str(watermark_queue_size)}']
         if watermark_sync:
-                command+= ['-vsync', '1', '-async', '-1']
+                command+= []
         command+= ['-preset', watermark_preset, '-y', f'{str(output_file)}']
         return command, log_file, input_file, output_file, file_duration
     
