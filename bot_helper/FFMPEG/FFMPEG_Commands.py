@@ -94,7 +94,7 @@ def get_commands(process_status):
             command+= ['-max_muxing_queue_size', f'{str(watermark_queue_size)}']
         if watermark_sync:
                 command+= []
-        command+= ['-preset', watermark_preset, '-y', f'{str(output_file)}']
+        command+= ['-preset', watermark_preset, '-c:a', 'copy', '-y', f'{str(output_file)}']
         return command, log_file, input_file, output_file, file_duration
     
     elif process_status.process_type==Names.merge:
