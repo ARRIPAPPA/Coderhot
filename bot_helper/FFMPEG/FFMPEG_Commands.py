@@ -83,7 +83,7 @@ def get_commands(process_status):
             command+= []
         if get_data()[process_status.user_id]['watermark']['encode']:
                 if watermark_encoder=='libx265':
-                        command+= []
+                        command+= ['-vcodec','libx264']
                 else:
                         command+= []
         else:
