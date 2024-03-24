@@ -83,7 +83,7 @@ def get_commands(process_status):
             command+= []
         if get_data()[process_status.user_id]['watermark']['encode']:
                 if watermark_encoder=='libx265':
-                        command+= ['c:v','libx265', '-tune', 'animation', '-preset', watermark_preset, '-pix_fmt', 'yuv420p10le', '-colorspace', 'bt709', '-color_trc', 'bt709', '-color_primaries', 'bt709', '-x265-params', 'crf=22']
+                        command+= ['-c:v','libx265', '-tune', 'animation', '-preset', watermark_preset, '-pix_fmt', 'yuv420p10le', '-colorspace', 'bt709', '-color_trc', 'bt709', '-color_primaries', 'bt709', '-x265-params', 'crf=22']
                 else:
                         command+= []
         else:
