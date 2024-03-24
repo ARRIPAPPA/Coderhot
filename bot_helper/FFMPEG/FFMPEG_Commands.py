@@ -78,12 +78,12 @@ def get_commands(process_status):
             command+=['-map','0:v?',
                                         '-map',f'{str(process_status.amap_options)}?',
                                         "-map", "0:s?"]
-        command+= ["-filter_complex", f"[1][0]scale2ref=w='iw*{watermark_size}/100':h='ow/mdar'[wm][vid];[vid][wm]overlay={watermark_position}"]
+        command+= ["-filter_complex", f"[1][0]scale2ref=w='iw*{watermark_size}/100':h='ow/mdar'[wm][vid];[vid][wm]overlay={watermark_position},scale=1920:1080:flags=lanczos"]
         if watermark_copysub:
             command+= []
         if get_data()[process_status.user_id]['watermark']['encode']:
                 if watermark_encoder=='libx265':
-                        command+= ['-vcodec','libx264']
+                        command+= ['c:v','libx265', '-tune', 'animation', '-preset', watermark_preset, '-pix_fmt', 'yuv420p10le', '-colorspace', 'bt709', '-color_trc', 'bt709', '-color_primaries', 'bt709', '-x265-params', 'crf=22']
                 else:
                         command+= []
         else:
@@ -94,7 +94,7 @@ def get_commands(process_status):
             command+= ['-max_muxing_queue_size', f'{str(watermark_queue_size)}']
         if watermark_sync:
                 command+= []
-        command+= ['-preset', watermark_preset, '-c:a', 'copy', '-y', f'{str(output_file)}']
+        command+= ['-c:a', 'copy', '-y', f'{str(output_file)}']
         return command, log_file, input_file, output_file, file_duration
     
     elif process_status.process_type==Names.merge:
