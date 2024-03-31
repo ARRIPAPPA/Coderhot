@@ -83,9 +83,9 @@ def get_commands(process_status):
             command+= []
         if get_data()[process_status.user_id]['watermark']['encode']:
                 if watermark_encoder=='libx265':
-                        command+= ['-c:v','libx265', '-tune', 'animation', '-preset', watermark_preset, '-pix_fmt', 'yuv420p10le', '-colorspace', 'bt709', '-color_trc', 'bt709', '-color_primaries', 'bt709', '-x265-params', 'crf=22']
+                        command+= ['-vcodec','libx265','-vtag', 'hvc1']
                 else:
-                        command+= []
+                        command+= ['-vcodec','libx264']
         else:
             command+= []
         watermark_use_queue_size = get_data()[process_status.user_id]['watermark']['use_queue_size']
@@ -94,10 +94,10 @@ def get_commands(process_status):
             command+= ['-max_muxing_queue_size', f'{str(watermark_queue_size)}']
         if watermark_sync:
                 command+= []
-        command+= ['-metadata:s:v', 'title=@AnimeKurrollu', 
-                   '-metadata:s:a', 'title=@AnimeKurrollu', 
+        command+= ['-metadata:s:v', 'title=@CartoonKurrollu', 
+                   '-metadata:s:a', 'title=@CartoonKurrollu', 
                    '-metadata:s:a', 'Note=Muxed-by-Blaster', 
-                   '-metadata:s:a', 'title=@AnimeKurrollu~Crunchyroll', 
+                   '-metadata:s:a', 'title=@CartoonKurrollu', 
                    '-c:a', 'copy', '-y', f'{str(output_file)}']
         return command, log_file, input_file, output_file, file_duration
     
